@@ -14,10 +14,13 @@
 
 set -euo pipefail  # Exit on error, unset variable, or failed pipe
 
+# Script version
+SCRIPT_VERSION="2.1.0"
+
 UPSTREAM_URL="https://github.com/StefanMaron/MSDyn365BC.Code.History.git"  # Upstream repo URL
 BRANCH_PREFIX="w1-"  # Prefix for W1 branches
 
-echo "🚀 Starting Business Central W1 branch sync process"
+echo "🚀 Starting Business Central W1 branch sync process (v${SCRIPT_VERSION})"
 echo "Upstream: $UPSTREAM_URL"
 echo "Branch prefix: $BRANCH_PREFIX"
 echo "Working directory: $(pwd)"
@@ -26,7 +29,7 @@ echo ""
 # --------------------------------------------------------------------
 # 1) Ensure we have both remotes and all refs
 # --------------------------------------------------------------------
-echo "=== Step 1: Setting up remotes and fetching refs ==="
+echo "=== Step 1: Setting up remotes and fetching refs (v${SCRIPT_VERSION}) ==="
 
 # Add the upstream remote if it doesn't exist
 echo "Adding upstream remote: $UPSTREAM_URL"
@@ -58,7 +61,7 @@ git for-each-ref --format='  %(refname:short)' "refs/remotes/upstream/${BRANCH_P
 # 2) Find the highest-numbered upstream branch (e.g. w1-26)
 # --------------------------------------------------------------------
 echo ""
-echo "=== Step 2: Finding highest-numbered upstream branch ==="
+echo "=== Step 2: Finding highest-numbered upstream branch (v${SCRIPT_VERSION}) ==="
 
 # List all remote-tracking w1-* branches from upstream, strip the prefix,
 # sort numerically by the number after w1-, and pick the highest one.
@@ -85,7 +88,7 @@ echo "✓ Newest upstream branch is: $latest_upstream_branch"
 #    We parse the latest commit message for 'w1-XX' and 'SHA: xxxxxxx'.
 # --------------------------------------------------------------------
 echo ""
-echo "=== Step 3: Checking current version and SHA on main ==="
+echo "=== Step 3: Checking current version and SHA on main (v${SCRIPT_VERSION}) ==="
 
 # Check if main exists, then extract the w1-XX version and SHA from the latest commit message.
 # If not found, set to 'none'.
@@ -159,7 +162,7 @@ fi
 # 4) Check out main and bring in upstream files
 # --------------------------------------------------------------------
 echo ""
-echo "=== Step 4: Updating repository with upstream content ==="
+echo "=== Step 4: Updating repository with upstream content (v${SCRIPT_VERSION}) ==="
 
 # Switch to main branch
 echo "Checking out main branch..."
@@ -204,7 +207,7 @@ fi
 # 5) Stage, commit, and push the update
 # --------------------------------------------------------------------
 echo ""
-echo "=== Step 5: Committing and pushing changes ==="
+echo "=== Step 5: Committing and pushing changes (v${SCRIPT_VERSION}) ==="
 
 # Stage all changes
 echo "Staging all changes..."
