@@ -98,13 +98,17 @@ if git rev-parse --verify -q refs/heads/main >/dev/null; then
   echo "✓ Main branch exists"
 
   # Look for the most recent sync commit in the commit history
-  sync_commit_msg=$(git log --pretty=%B --grep="Sync to upstream ${BRANCH_PREFIX}" -1 main || true)
+  # Try both old and new commit message formats
+  sync_commit_msg=$(git log --pretty=%B --grep="Sync to upstream" -1 main || true)
 
   if [[ -n "$sync_commit_msg" ]]; then
     echo "Latest sync commit message found:"
     echo "  $sync_commit_msg"
 
-    current_version=$(echo "$sync_commit_msg" | grep -oE "${BRANCH_PREFIX}[0-9]+" || true)
+    # Extract version and SHA from different possible commit message formats
+    # New format: "Sync to upstream w1-26 (SHA: abc123)"
+    # Old format: "Sync to upstream upstream/w1-26"
+    current_version=$(echo "$sync_commit_msg" | grep -oE "(upstream/)?${BRANCH_PREFIX}[0-9]+" | sed 's|upstream/||' || true)
     current_sha=$(echo "$sync_commit_msg" | grep -oE "SHA: [a-f0-9]+" | cut -d' ' -f2 || true)
   else
     echo "No previous sync commit found on main"
@@ -150,9 +154,18 @@ upstream_branch_name=$(echo "$latest_upstream_branch" | sed 's|^upstream/||')
 if [[ "$current_version" != "$upstream_branch_name" ]]; then
   echo "🔄 Version update needed: $current_version → $upstream_branch_name"
   needs_update=true
-elif [[ "$current_sha" != "$latest_upstream_sha" ]]; then
+elif [[ -n "$current_sha" && "$current_sha" != "none" && "$current_sha" != "$latest_upstream_sha" ]]; then
   echo "🔄 Same version but SHA update needed: $current_sha → $latest_upstream_sha"
   needs_update=true
+elif [[ -z "$current_sha" || "$current_sha" == "none" ]]; then
+  # For old format commits without SHA, compare tree content instead
+  echo "Comparing repository content with upstream (old commit format)..."
+  if ! git diff --quiet HEAD "$latest_upstream_branch" -- ':!.github'; then
+    echo "🔄 Content differs from upstream - update needed"
+    needs_update=true
+  else
+    echo "✓ Content matches upstream - no update needed"
+  fi
 else
   echo "✓ Repository already synchronized to latest commit – nothing to do."
   exit 0
