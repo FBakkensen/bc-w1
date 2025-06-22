@@ -93,24 +93,33 @@ echo "Checking main branch for current version and SHA..."
 
 if git rev-parse --verify -q refs/heads/main >/dev/null; then
   echo "✓ Main branch exists"
-  latest_commit_msg=$(git log -1 --pretty=%B main)
-  echo "Latest commit message on main:"
-  echo "  $latest_commit_msg"
 
-  current_version=$(echo "$latest_commit_msg" | grep -oE "${BRANCH_PREFIX}[0-9]+" || true)
-  current_sha=$(echo "$latest_commit_msg" | grep -oE "SHA: [a-f0-9]+" | cut -d' ' -f2 || true)
-  
-  if [[ -n "$current_version" ]]; then
-    echo "✓ Found version in commit message: $current_version"
+  # Look for the most recent sync commit in the commit history
+  sync_commit_msg=$(git log --pretty=%B --grep="Sync to upstream ${BRANCH_PREFIX}" -1 main || true)
+
+  if [[ -n "$sync_commit_msg" ]]; then
+    echo "Latest sync commit message on main:"
+    echo "  $sync_commit_msg"
+
+    current_version=$(echo "$sync_commit_msg" | grep -oE "${BRANCH_PREFIX}[0-9]+" || true)
+    current_sha=$(echo "$sync_commit_msg" | grep -oE "SHA: [a-f0-9]+" | cut -d' ' -f2 || true)
   else
-    echo "⚠ No version found in commit message"
+    echo "No previous sync commit found on main"
+    current_version="none"
+    current_sha="none"
+  fi
+
+  if [[ -n "$current_version" ]]; then
+    echo "✓ Found version in sync commit: $current_version"
+  else
+    echo "⚠ No version found in sync commit"
     current_version="none"
   fi
-  
+
   if [[ -n "$current_sha" ]]; then
-    echo "✓ Found SHA in commit message: $current_sha"
+    echo "✓ Found SHA in sync commit: $current_sha"
   else
-    echo "⚠ No SHA found in commit message"
+    echo "⚠ No SHA found in sync commit"
     current_sha="none"
   fi
 else
