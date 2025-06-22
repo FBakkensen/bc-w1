@@ -98,13 +98,15 @@ if git rev-parse --verify -q refs/heads/main >/dev/null; then
   sync_commit_msg=$(git log --pretty=%B --grep="Sync to upstream ${BRANCH_PREFIX}" -1 main || true)
 
   if [[ -n "$sync_commit_msg" ]]; then
-    echo "Latest sync commit message on main:"
+    echo "Latest sync commit message found:"
     echo "  $sync_commit_msg"
 
     current_version=$(echo "$sync_commit_msg" | grep -oE "${BRANCH_PREFIX}[0-9]+" || true)
     current_sha=$(echo "$sync_commit_msg" | grep -oE "SHA: [a-f0-9]+" | cut -d' ' -f2 || true)
   else
     echo "No previous sync commit found on main"
+    echo "Latest commit message on main:"
+    echo "  $(git log -1 --pretty=%B main)"
     current_version="none"
     current_sha="none"
   fi
