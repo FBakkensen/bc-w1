@@ -111,14 +111,14 @@ if git rev-parse --verify -q refs/heads/main >/dev/null; then
     current_sha="none"
   fi
 
-  if [[ -n "$current_version" ]]; then
+  if [[ -n "$current_version" && "$current_version" != "none" ]]; then
     echo "✓ Found version in sync commit: $current_version"
   else
     echo "⚠ No version found in sync commit"
     current_version="none"
   fi
 
-  if [[ -n "$current_sha" ]]; then
+  if [[ -n "$current_sha" && "$current_sha" != "none" ]]; then
     echo "✓ Found SHA in sync commit: $current_sha"
   else
     echo "⚠ No SHA found in sync commit"
