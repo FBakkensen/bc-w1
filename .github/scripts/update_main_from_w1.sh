@@ -178,9 +178,14 @@ echo "✓ Changes staged"
 
 # Debug: Show what will be committed
 echo "Debug: Files that will be committed:"
-git diff --cached --name-status | head -20  # Show first 20 changed files
-if [[ $(git diff --cached --name-only | wc -l) -gt 20 ]]; then
-  echo "  ... and $(($(git diff --cached --name-only | wc -l) - 20)) more files"
+# Use a safer approach to avoid broken pipe errors
+files_output=$(git diff --cached --name-status)
+file_count=$(echo "$files_output" | wc -l)
+if [[ $file_count -gt 20 ]]; then
+  echo "$files_output" | head -20
+  echo "  ... and $((file_count - 20)) more files"
+else
+  echo "$files_output"
 fi
 
 # If there are no changes, exit
