@@ -1,0 +1,27 @@
+name: Sync main with latest upstream W1 branch
+
+on:
+  schedule:
+    # Every night at 02:17 UTC – change if you like
+    - cron: '17 2 * * *'
+  workflow_dispatch:
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout this repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0          # we need full history
+          token: ${{ secrets.BOT_TOKEN }}
+
+      - name: Configure Git identity
+        run: |
+          git config user.name  "bc-w1-bot"
+          git config user.email "bc-w1-bot@users.noreply.github.com"
+
+      - name: Sync main from upstream
+        run: |
+          ./.github/scripts/update_main_from_w1.sh
