@@ -15,7 +15,7 @@ BRANCH_PREFIX="w1-"
 # --------------------------------------------------------------------
 git remote add upstream "$UPSTREAM_URL" 2>/dev/null || true
 git fetch --quiet origin
-git fetch --quiet upstream "+refs/heads/${BRANCH_PREFIX}*:+refs/remotes/upstream/${BRANCH_PREFIX}*"
+git fetch --quiet upstream "+refs/heads/${BRANCH_PREFIX}*:refs/remotes/upstream/${BRANCH_PREFIX}*"
 
 # --------------------------------------------------------------------
 # 2) Find the highest-numbered upstream branch (e.g. w1-26)
