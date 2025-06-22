@@ -84,7 +84,12 @@ rsync -a --delete \
       --exclude '.github/' \
       "$tmp_dir"/ ./ > /dev/null
 
-rm -rf "$tmp_dir"  # Clean up temp dir
+# Safety check before deleting tmp_dir to avoid deleting the repo by accident
+if [[ -n "$tmp_dir" && "$tmp_dir" != "/" && "$tmp_dir" != "." && "$tmp_dir" != "$(pwd)" ]]; then
+  rm -rf "$tmp_dir"  # Clean up temp dir
+else
+  echo "Refusing to delete suspicious tmp_dir: $tmp_dir"
+fi
 
 # --------------------------------------------------------------------
 # 5) Stage, commit, and push the update
