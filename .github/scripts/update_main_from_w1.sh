@@ -178,14 +178,14 @@ echo "✓ Changes staged"
 
 # Debug: Show what will be committed
 echo "Debug: Files that will be committed:"
-# Use a safer approach to avoid broken pipe errors
+# Use a safer approach to avoid broken pipe errors by using printf instead of echo with pipes
 files_output=$(git diff --cached --name-status)
 file_count=$(echo "$files_output" | wc -l)
 if [[ $file_count -gt 20 ]]; then
-  echo "$files_output" | head -20
+  printf '%s\n' "$files_output" | head -20 || true
   echo "  ... and $((file_count - 20)) more files"
 else
-  echo "$files_output"
+  printf '%s\n' "$files_output"
 fi
 
 # If there are no changes, exit
