@@ -147,9 +147,10 @@ ls -la "$tmp_dir" | head -10  # Show first 10 items
 echo "  ... (showing first 10 items only)"
 
 # Use rsync to copy all files from temp dir to repo, deleting files that disappeared upstream
-# Exclude the .github folder from deletion to preserve workflow config
-echo "Syncing upstream content to repository (preserving .github folder)..."
+# Exclude the .git and .github folders from deletion to preserve Git repo and workflow config
+echo "Syncing upstream content to repository (preserving .git and .github folders)..."
 rsync -av --delete \
+      --exclude '.git/' \
       --exclude '.github/' \
       "$tmp_dir"/ ./
 echo "✓ Content synchronization completed"
