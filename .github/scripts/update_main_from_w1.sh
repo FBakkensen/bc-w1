@@ -81,15 +81,15 @@ fi
 echo "✓ Newest upstream branch is: $latest_upstream_branch"
 
 # --------------------------------------------------------------------
-# 3) Determine the version currently stored on main (if any)
-#    We parse the latest commit message for 'w1-XX'.
+# 3) Determine the version and SHA currently stored on main (if any)
+#    We parse the latest commit message for 'w1-XX' and 'SHA: xxxxxxx'.
 # --------------------------------------------------------------------
 echo ""
-echo "=== Step 3: Checking current version on main ==="
+echo "=== Step 3: Checking current version and SHA on main ==="
 
-# Check if main exists, then extract the w1-XX version from the latest commit message.
+# Check if main exists, then extract the w1-XX version and SHA from the latest commit message.
 # If not found, set to 'none'.
-echo "Checking main branch for current version..."
+echo "Checking main branch for current version and SHA..."
 
 if git rev-parse --verify -q refs/heads/main >/dev/null; then
   echo "✓ Main branch exists"
@@ -98,27 +98,51 @@ if git rev-parse --verify -q refs/heads/main >/dev/null; then
   echo "  $latest_commit_msg"
 
   current_version=$(echo "$latest_commit_msg" | grep -oE "${BRANCH_PREFIX}[0-9]+" || true)
+  current_sha=$(echo "$latest_commit_msg" | grep -oE "SHA: [a-f0-9]+" | cut -d' ' -f2 || true)
+  
   if [[ -n "$current_version" ]]; then
     echo "✓ Found version in commit message: $current_version"
   else
     echo "⚠ No version found in commit message"
     current_version="none"
   fi
+  
+  if [[ -n "$current_sha" ]]; then
+    echo "✓ Found SHA in commit message: $current_sha"
+  else
+    echo "⚠ No SHA found in commit message"
+    current_sha="none"
+  fi
 else
   echo "⚠ Main branch does not exist yet"
   current_version="none"
+  current_sha="none"
 fi
 
 echo "Current version on main: $current_version"
+echo "Current SHA on main: $current_sha"
 echo "Latest upstream version: $latest_upstream_branch"
 
-# If main is already up to date, exit early
-if [[ "$current_version" == "$latest_upstream_branch" ]]; then
-  echo "✓ Repository already on newest version – nothing to do."
+# Get the latest commit SHA from the upstream branch
+latest_upstream_sha=$(git rev-parse "$latest_upstream_branch")
+echo "Latest upstream SHA: $latest_upstream_sha"
+
+# Check if we need to update based on version or SHA
+needs_update=false
+
+# Extract just the branch name without the remote prefix for comparison
+upstream_branch_name=$(echo "$latest_upstream_branch" | sed 's|^upstream/||')
+
+if [[ "$current_version" != "$upstream_branch_name" ]]; then
+  echo "🔄 Version update needed: $current_version → $upstream_branch_name"
+  needs_update=true
+elif [[ "$current_sha" != "$latest_upstream_sha" ]]; then
+  echo "🔄 Same version but SHA update needed: $current_sha → $latest_upstream_sha"
+  needs_update=true
+else
+  echo "✓ Repository already synchronized to latest commit – nothing to do."
   exit 0
 fi
-
-echo "🔄 Update needed: $current_version → $latest_upstream_branch"
 
 # --------------------------------------------------------------------
 # 4) Check out main and bring in upstream files
@@ -194,9 +218,9 @@ if git diff --cached --quiet; then
   exit 0
 fi
 
-# Otherwise, commit with a message indicating the new upstream version
+# Otherwise, commit with a message indicating the new upstream version and SHA
 echo "Creating commit for sync to $latest_upstream_branch..."
-git commit -m "Sync to upstream ${latest_upstream_branch}"
+git commit -m "Sync to upstream ${upstream_branch_name} (SHA: ${latest_upstream_sha})"
 echo "✓ Commit created successfully"
 
 # Push to origin/main
@@ -205,4 +229,4 @@ git push origin main
 echo "✅ Push completed successfully"
 
 echo ""
-echo "🎉 main branch updated to ${latest_upstream_branch}"
+echo "🎉 main branch updated to ${upstream_branch_name} (SHA: ${latest_upstream_sha})"
