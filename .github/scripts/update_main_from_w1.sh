@@ -38,7 +38,6 @@ git fetch --quiet upstream "+refs/heads/${BRANCH_PREFIX}*:refs/remotes/upstream/
 
 latest_upstream_branch=$(git for-each-ref --format='%(refname:short)' \
                          "refs/remotes/upstream/${BRANCH_PREFIX}*" |
-                         sed -E "s#refs/remotes/upstream/##" |
                          sort -t- -k2 -n | tail -1)
 
 if [[ -z "$latest_upstream_branch" ]]; then
