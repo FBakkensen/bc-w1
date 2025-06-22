@@ -15,7 +15,7 @@
 set -euo pipefail  # Exit on error, unset variable, or failed pipe
 
 # Script version
-SCRIPT_VERSION="2.1.0"
+SCRIPT_VERSION="2.1.1"
 
 UPSTREAM_URL="https://github.com/StefanMaron/MSDyn365BC.Code.History.git"  # Upstream repo URL
 BRANCH_PREFIX="w1-"  # Prefix for W1 branches
@@ -165,6 +165,8 @@ elif [[ -z "$current_sha" || "$current_sha" == "none" ]]; then
     needs_update=true
   else
     echo "✓ Content matches upstream - no update needed"
+    echo "✓ Repository already synchronized to latest commit – nothing to do."
+    exit 0
   fi
 else
   echo "✓ Repository already synchronized to latest commit – nothing to do."
