@@ -1,10 +1,10 @@
 namespace Microsoft.SubscriptionBilling;
 
-using Microsoft.Purchases.Vendor;
+using Microsoft.Finance.Dimension;
+using Microsoft.Finance.GeneralLedger.Ledger;
 using Microsoft.Purchases.Document;
 using Microsoft.Purchases.History;
-using Microsoft.Finance.GeneralLedger.Ledger;
-using Microsoft.Finance.Dimension;
+using Microsoft.Purchases.Vendor;
 using System.Security.User;
 
 table 8072 "Vend. Sub. Contract Deferral"
@@ -171,12 +171,8 @@ table 8072 "Vend. Sub. Contract Deferral"
                     Sign := 1;
                 end;
         end;
-
-        if (PurchaseLine."Document Type" = Enum::"Purchase Document Type"::"Credit Memo") and (PurchaseLine.Quantity < 0) then
-            Sign := Sign * -1
-        else
-            if (PurchaseLine.Quantity < 0) and (not PurchaseLine."Discount") then
-                Sign := Sign * -1;
+        if (PurchaseLine.Quantity < 0) and (not PurchaseLine."Discount") then
+            Sign := Sign * -1;
         Rec."Vendor No." := PurchaseLine."Pay-to Vendor No.";
         Rec."Dimension Set ID" := PurchaseLine."Dimension Set ID";
         Rec."Discount %" := PurchaseLine."Line Discount %";

@@ -1,7 +1,6 @@
 namespace Microsoft.SubscriptionBilling;
 
 using Microsoft.Finance.Currency;
-using Microsoft.Purchases.Document;
 using Microsoft.Sales.Document;
 
 table 8004 "Sub. Contr. Price Update Line"
@@ -259,8 +258,6 @@ table 8004 "Sub. Contr. Price Update Line"
     internal procedure CalculateNewCalculationBaseAmount()
     var
         ServiceObject: Record "Subscription Header";
-        TempPurchaseHeader: Record "Purchase Header" temporary;
-        TempPurchaseLine: Record "Purchase Line" temporary;
         TempSalesHeader: Record "Sales Header" temporary;
         TempSalesLine: Record "Sales Line" temporary;
         ContractsItemManagement: Codeunit "Sub. Contracts Item Management";
@@ -275,12 +272,7 @@ table 8004 "Sub. Contr. Price Update Line"
                 end;
             "Service Partner"::Vendor:
                 if ServiceObject.IsItem() then
-                    Rec."New Calculation Base" := ContractsItemManagement.CalculateUnitCost(ServiceObject."Source No.")
-                else begin
-                    ContractsItemManagement.CreateTempPurchaseHeader(TempPurchaseHeader, TempPurchaseHeader."Document Type"::Order, Rec."Partner No.", Rec."Perform Update On", Rec."Currency Code");
-                    ContractsItemManagement.CreateTempPurchaseLine(TempPurchaseLine, TempPurchaseHeader, ServiceObject, Rec."Perform Update On");
-                    Rec."New Calculation Base" := ContractsItemManagement.CalculateDirectUnitCost(TempPurchaseHeader, TempPurchaseLine);
-                end;
+                    Rec."New Calculation Base" := ContractsItemManagement.CalculateUnitCost(ServiceObject."Source No.");
         end;
     end;
 

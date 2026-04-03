@@ -1,16 +1,16 @@
 namespace Microsoft.SubscriptionBilling;
 
-using Microsoft.Foundation.Navigate;
-using Microsoft.Foundation.AuditCodes;
-using Microsoft.Sales.Document;
-using Microsoft.Sales.Posting;
-using Microsoft.Sales.History;
 using Microsoft.Finance.Currency;
-using Microsoft.Finance.GeneralLedger.Setup;
-using Microsoft.Finance.GeneralLedger.Preview;
-using Microsoft.Finance.GeneralLedger.Posting;
-using Microsoft.Finance.GeneralLedger.Ledger;
 using Microsoft.Finance.GeneralLedger.Journal;
+using Microsoft.Finance.GeneralLedger.Ledger;
+using Microsoft.Finance.GeneralLedger.Posting;
+using Microsoft.Finance.GeneralLedger.Preview;
+using Microsoft.Finance.GeneralLedger.Setup;
+using Microsoft.Foundation.AuditCodes;
+using Microsoft.Foundation.Navigate;
+using Microsoft.Sales.Document;
+using Microsoft.Sales.History;
+using Microsoft.Sales.Posting;
 
 codeunit 8067 "Customer Deferrals Mngmt."
 {
@@ -189,10 +189,7 @@ codeunit 8067 "Customer Deferrals Mngmt."
             RunningLineAmount += LineAmountPerPeriod;
             RunningLineDiscountAmount += LineDiscountAmountPerPeriod;
 
-            if i = NumberOfPeriods then
-                CustomerContractDeferral."Number of Days" := Date2DMY(LastDayOfBillingPeriod, 1)
-            else
-                CustomerContractDeferral."Number of Days" := Date2DMY(CalcDate('<CM>', CustomerContractDeferral."Posting Date"), 1);
+            CustomerContractDeferral."Number of Days" := Date2DMY(CalcDate('<CM>', CustomerContractDeferral."Posting Date"), 1);
             CustomerContractDeferral.Amount := LineAmountPerPeriod;
             CustomerContractDeferral."Discount Amount" := LineDiscountAmountPerPeriod;
             CustomerContractDeferral."Entry No." := 0;
@@ -236,8 +233,6 @@ codeunit 8067 "Customer Deferrals Mngmt."
         LineAmountPerDay := TotalLineAmount / NumberOfDaysInSchedule;
         LineDiscountAmountPerDay := TotalLineDiscountAmount / NumberOfDaysInSchedule;
         FirstMonthDays := CalcDate('<CM>', NextPostingDate) - NextPostingDate + 1;
-        if NumberOfPeriods = 1 then
-            FirstMonthDays := NumberOfDaysInSchedule;
         FirstMonthLineAmount := Round(FirstMonthDays * LineAmountPerDay, GLSetup."Amount Rounding Precision");
         FirstMonthLineDiscountAmount := Round(FirstMonthDays * LineDiscountAmountPerDay, GLSetup."Amount Rounding Precision");
         LastMonthDays := Date2DMY(LastDayOfBillingPeriod, 1);

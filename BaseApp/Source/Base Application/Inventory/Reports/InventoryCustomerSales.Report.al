@@ -29,9 +29,14 @@ report 713 "Inventory - Customer Sales"
                 ObsoleteTag = '27.0';
             }
 #endif
+#if not CLEAN28
             column(PeriodText; PeriodText)
             {
+                ObsoleteState = Pending;
+                ObsoleteReason = 'RDLC Only layout column. To be removed along with the RDLC layout.';
+                ObsoleteTag = '28.0';
             }
+#endif
             column(ItemFilter; ItemFilter)
             {
             }
@@ -244,11 +249,16 @@ report 713 "Inventory - Customer Sales"
                 {
                     Visible = false;
                     Caption = 'Options';
+#if not CLEAN28
                     field(PostingDateFilter; PostingDateFilter)
                     {
                         ApplicationArea = Basic, Suite;
                         Caption = 'Posting Date Filter';
+                        ObsoleteState = Pending;
+                        ObsoleteReason = 'This request page field will be removed in a future release.';
+                        ObsoleteTag = '28.0';
                     }
+#endif
                     // Used to set report headers across multiple languages
                     field(RequestItemFilter; ItemFilter)
                     {
@@ -271,10 +281,12 @@ report 713 "Inventory - Customer Sales"
         actions
         {
         }
+#if not CLEAN28        
         trigger OnQueryClosePage(CloseAction: Action): Boolean
         begin
             PostingDateFilter := "Item Ledger Entry".GetFilter("Posting Date");
         end;
+#endif
 
         trigger OnClosePage()
         begin
@@ -289,22 +301,25 @@ report 713 "Inventory - Customer Sales"
             Caption = 'Inventory Customer Sales Excel';
             LayoutFile = '.\Inventory\Reports\InventoryCustomerSales.xlsx';
             Type = Excel;
+            Summary = 'Built in layout for the Inventory Customer Sales Excel report.';
         }
         layout(Word)
         {
             Caption = 'Inventory Customer Sales Word';
             LayoutFile = '.\Inventory\Reports\InventoryCustomerSales.docx';
             Type = Word;
+            Summary = 'Built in layout for the Inventory Customer Sales Word report.';
         }
 #if not CLEAN27
         layout(RDLC)
         {
-            Caption = 'Inventory Customer Sales RDLC';
+            Caption = 'Inventory Customer Sales RDLC (Obsolete)';
             Type = RDLC;
             LayoutFile = '.\Inventory\Reports\InventoryCustomerSales.rdlc';
             ObsoleteState = Pending;
             ObsoleteReason = 'The RDLC layout has been replaced by the Excel and Word layouts and will be removed in a future release.';
             ObsoleteTag = '27.0';
+            Summary = 'Built in layout for the Inventory Customer Sales RDLC (Obsolete) report.';
         }
 #endif
     }
@@ -315,6 +330,13 @@ report 713 "Inventory - Customer Sales"
         InventoryCustomerSalesLbl = 'Inventory Customer Sales';
         InvCustomerSalesPrintLbl = 'Inv. Cust. Sales (Print)', MaxLength = 31, Comment = 'Excel worksheet name.';
         InvCustomerSalesAnalysisLbl = 'Inv. Cust. Sales (Analysis)', MaxLength = 31, Comment = 'Excel worksheet name.';
+        CustomerNoLbl = 'Customer No.';
+        CustNameLbl = 'Name';
+        InvQtyLbl = 'Invoiced Quantity';
+        AmountLbl = 'Amount';
+        DiscountAmtLbl = 'Discount Amount';
+        ProfitLbl = 'Profit';
+        ProfitPctLbl = 'Profit %';
         PeriodLbl = 'Period';
         // About the report labels
         AboutTheReportLbl = 'About the report', MaxLength = 31, Comment = 'Excel worksheet name.';
@@ -324,13 +346,6 @@ report 713 "Inventory - Customer Sales"
         RunOnLbl = 'Run on';
         ReportNameLbl = 'Report name';
         DocumentationLbl = 'Documentation';
-        CustomerNoLbl = 'Customer No.';
-        CustNameLbl = 'Name';
-        InvQtyLbl = 'Invoiced Quantity';
-        AmountLbl = 'Amount';
-        DiscountAmtLbl = 'Discount Amount';
-        ProfitLbl = 'Profit';
-        ProfitPctLbl = 'Profit %';
 #if not CLEAN27
         ReportTitle = 'Inventory - Customer Sales';
         Page = 'Page';
@@ -356,9 +371,9 @@ report 713 "Inventory - Customer Sales"
         TempValueEntryBuf2: Record "Value Entry" temporary;
         ItemFilter: Text;
         ItemLedgEntryFilter: Text;
+#if not CLEAN28
         PostingDateFilter: Text;
-        PeriodText: Text;
-        PeriodInfoTxt: Label 'Period: %1', Comment = '%1 - period name';
+#endif
         LastItemLedgEntryNo: Integer;
         ReportLineNo: Integer;
         ProfitPct: Decimal;
@@ -372,6 +387,10 @@ report 713 "Inventory - Customer Sales"
         TotalsProfit: Decimal;
         TotalsProfitPct: Decimal;
         ReportHasData: Boolean;
+#if not CLEAN28
+        PeriodText: Text;
+        PeriodInfoTxt: Label 'Period: %1', Comment = '%1 - period name';
+#endif
         TableFiltersTxt: Label '%1: %2', Locked = true;
 
     local procedure CalcDiscountAmount(ItemLedgerEntryNo: Integer): Decimal
@@ -452,12 +471,14 @@ report 713 "Inventory - Customer Sales"
         exit('');
     end;
 
-    // Ensures layout filter headings are up to date
+    // Ensures Layout Filter Headings are up to date
     local procedure UpdateRequestPageFilterValues()
     begin
         ItemFilter := GetTableFilters(Item.TableCaption(), Item.GetFilters);
         ItemLedgEntryFilter := GetTableFilters("Item Ledger Entry".TableCaption(), "Item Ledger Entry".GetFilters);
+#if not CLEAN28
         PeriodText := StrSubstNo(PeriodInfoTxt, "Item Ledger Entry".GetFilter("Posting Date"));
+#endif
     end;
 }
 

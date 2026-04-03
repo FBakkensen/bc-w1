@@ -2508,6 +2508,69 @@
       </DefaultValue>
       <Prompt>InvCustomerSalesAnalysisLbl</Prompt>
     </ReportParameter>
+    <ReportParameter Name="CustomerNoLbl">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>CustomerNoLbl</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>CustomerNoLbl</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="CustNameLbl">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>CustNameLbl</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>CustNameLbl</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="InvQtyLbl">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>InvQtyLbl</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>InvQtyLbl</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="AmountLbl">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>AmountLbl</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>AmountLbl</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DiscountAmtLbl">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>DiscountAmtLbl</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>DiscountAmtLbl</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ProfitLbl">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>ProfitLbl</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>ProfitLbl</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ProfitPctLbl">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>ProfitPctLbl</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>ProfitPctLbl</Prompt>
+    </ReportParameter>
     <ReportParameter Name="PeriodLbl">
       <DataType>String</DataType>
       <DefaultValue>
@@ -2579,69 +2642,6 @@
         </Values>
       </DefaultValue>
       <Prompt>DocumentationLbl</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="CustomerNoLbl">
-      <DataType>String</DataType>
-      <DefaultValue>
-        <Values>
-          <Value>CustomerNoLbl</Value>
-        </Values>
-      </DefaultValue>
-      <Prompt>CustomerNoLbl</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="CustNameLbl">
-      <DataType>String</DataType>
-      <DefaultValue>
-        <Values>
-          <Value>CustNameLbl</Value>
-        </Values>
-      </DefaultValue>
-      <Prompt>CustNameLbl</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="InvQtyLbl">
-      <DataType>String</DataType>
-      <DefaultValue>
-        <Values>
-          <Value>InvQtyLbl</Value>
-        </Values>
-      </DefaultValue>
-      <Prompt>InvQtyLbl</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="AmountLbl">
-      <DataType>String</DataType>
-      <DefaultValue>
-        <Values>
-          <Value>AmountLbl</Value>
-        </Values>
-      </DefaultValue>
-      <Prompt>AmountLbl</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="DiscountAmtLbl">
-      <DataType>String</DataType>
-      <DefaultValue>
-        <Values>
-          <Value>DiscountAmtLbl</Value>
-        </Values>
-      </DefaultValue>
-      <Prompt>DiscountAmtLbl</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ProfitLbl">
-      <DataType>String</DataType>
-      <DefaultValue>
-        <Values>
-          <Value>ProfitLbl</Value>
-        </Values>
-      </DefaultValue>
-      <Prompt>ProfitLbl</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="ProfitPctLbl">
-      <DataType>String</DataType>
-      <DefaultValue>
-        <Values>
-          <Value>ProfitPctLbl</Value>
-        </Values>
-      </DefaultValue>
-      <Prompt>ProfitPctLbl</Prompt>
     </ReportParameter>
     <ReportParameter Name="ReportTitle">
       <DataType>String</DataType>
@@ -2816,77 +2816,77 @@
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
           <RowIndex>4</RowIndex>
-          <ParameterName>PeriodLbl</ParameterName>
-        </CellDefinition>
-        <CellDefinition>
-          <ColumnIndex>0</ColumnIndex>
-          <RowIndex>5</RowIndex>
-          <ParameterName>AboutTheReportLbl</ParameterName>
-        </CellDefinition>
-        <CellDefinition>
-          <ColumnIndex>0</ColumnIndex>
-          <RowIndex>6</RowIndex>
-          <ParameterName>EnvironmentLbl</ParameterName>
-        </CellDefinition>
-        <CellDefinition>
-          <ColumnIndex>0</ColumnIndex>
-          <RowIndex>7</RowIndex>
-          <ParameterName>CompanyLbl</ParameterName>
-        </CellDefinition>
-        <CellDefinition>
-          <ColumnIndex>0</ColumnIndex>
-          <RowIndex>8</RowIndex>
-          <ParameterName>UserLbl</ParameterName>
-        </CellDefinition>
-        <CellDefinition>
-          <ColumnIndex>0</ColumnIndex>
-          <RowIndex>9</RowIndex>
-          <ParameterName>RunOnLbl</ParameterName>
-        </CellDefinition>
-        <CellDefinition>
-          <ColumnIndex>0</ColumnIndex>
-          <RowIndex>10</RowIndex>
-          <ParameterName>ReportNameLbl</ParameterName>
-        </CellDefinition>
-        <CellDefinition>
-          <ColumnIndex>0</ColumnIndex>
-          <RowIndex>11</RowIndex>
-          <ParameterName>DocumentationLbl</ParameterName>
-        </CellDefinition>
-        <CellDefinition>
-          <ColumnIndex>0</ColumnIndex>
-          <RowIndex>12</RowIndex>
           <ParameterName>CustomerNoLbl</ParameterName>
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
-          <RowIndex>13</RowIndex>
+          <RowIndex>5</RowIndex>
           <ParameterName>CustNameLbl</ParameterName>
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
-          <RowIndex>14</RowIndex>
+          <RowIndex>6</RowIndex>
           <ParameterName>InvQtyLbl</ParameterName>
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
-          <RowIndex>15</RowIndex>
+          <RowIndex>7</RowIndex>
           <ParameterName>AmountLbl</ParameterName>
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
-          <RowIndex>16</RowIndex>
+          <RowIndex>8</RowIndex>
           <ParameterName>DiscountAmtLbl</ParameterName>
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
-          <RowIndex>17</RowIndex>
+          <RowIndex>9</RowIndex>
           <ParameterName>ProfitLbl</ParameterName>
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
-          <RowIndex>18</RowIndex>
+          <RowIndex>10</RowIndex>
           <ParameterName>ProfitPctLbl</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>11</RowIndex>
+          <ParameterName>PeriodLbl</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>12</RowIndex>
+          <ParameterName>AboutTheReportLbl</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>13</RowIndex>
+          <ParameterName>EnvironmentLbl</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>14</RowIndex>
+          <ParameterName>CompanyLbl</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>15</RowIndex>
+          <ParameterName>UserLbl</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>16</RowIndex>
+          <ParameterName>RunOnLbl</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>17</RowIndex>
+          <ParameterName>ReportNameLbl</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>18</RowIndex>
+          <ParameterName>DocumentationLbl</ParameterName>
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>

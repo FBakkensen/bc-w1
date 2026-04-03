@@ -44,7 +44,6 @@ codeunit 134393 "ERM Sales Subform"
         LineNoRemainsZeroLbl: Label 'Line No. should remain zero as zero is allowed';
         PositiveLineNoRemainUnchangedLbl: Label 'Positive Line No. should remain unchanged';
         SalesLineDescriptionMustMatchExtendedTextErr: Label 'Sales Line Description must match Extended Text';
-        TotalAmountErr: Label 'The total amount incl. vat was not calculated.';
 
 #if not CLEAN26
     [Obsolete('The statistics action will be replaced with the SalesStatistics action. The new action uses RunObject and does not run the action trigger', '26.0')]
@@ -5674,10 +5673,17 @@ codeunit 134393 "ERM Sales Subform"
         PostedSalesInvoice: TestPage "Posted Sales Invoice";
         SalesInvoiceStatistics: TestPage "Sales Invoice Statistics";
         PostedInvoiceNo: Code[20];
+        InvRoundingPrecision: Decimal;
     begin
         // [FEATURE] [Service Item]
         // [SCENARIO 294617] Posted sales invoice statistics shows proper value of Adjusted Cost (LCY) Adjusted Profit (LCY) for item with type Service
         Initialize();
+
+        //Modify General Ledger Setup "Inv. Rounding Precision (LCY)" to 0.01 
+        GeneralLedgerSetup.get();
+        InvRoundingPrecision := GeneralLedgerSetup."Inv. Rounding Precision (LCY)";
+        GeneralLedgerSetup.Validate("Inv. Rounding Precision (LCY)", 0.01);
+        GeneralLedgerSetup.Modify(true);
 
         // [GIVEN] Item "I" with "Type" = "Service", Unit Cost = 60, Unit Price = 100
         LibraryInventory.CreateServiceTypeItem(Item);
@@ -5709,6 +5715,11 @@ codeunit 134393 "ERM Sales Subform"
           SalesInvoiceStatistics.AdjustedProfitLCY.AsDecimal(),
           LibraryERM.GetAmountRoundingPrecision(),
           'Invalid Adjusted Profit (LCY) value');
+
+        // TearDown: Update general ledger setup with old value.
+        GeneralLedgerSetup.get();
+        GeneralLedgerSetup.Validate("Inv. Rounding Precision (LCY)", InvRoundingPrecision);
+        GeneralLedgerSetup.Modify(true);
     end;
 
     [Test]
@@ -5721,10 +5732,17 @@ codeunit 134393 "ERM Sales Subform"
         PostedSalesCreditMemo: TestPage "Posted Sales Credit Memo";
         SalesCreditMemoStatistics: TestPage "Sales Credit Memo Statistics";
         PostedCrMemoNo: Code[20];
+        InvRoundingPrecision: Decimal;
     begin
         // [FEATURE] [Service Item]
         // [SCENARIO 294617] Posted sales credit memo statistics shows proper value of Adjusted Cost (LCY) and Adjusted Profit (LCY) for item with type Service
         Initialize();
+
+        //Modify General Ledger Setup "Inv. Rounding Precision (LCY)" to 0.01 
+        GeneralLedgerSetup.get();
+        InvRoundingPrecision := GeneralLedgerSetup."Inv. Rounding Precision (LCY)";
+        GeneralLedgerSetup.Validate("Inv. Rounding Precision (LCY)", 0.01);
+        GeneralLedgerSetup.Modify(true);
 
         // [GIVEN] Item "I" with "Type" = "Service", Unit Cost = 60, Unit Price = 100
         LibraryInventory.CreateServiceTypeItem(Item);
@@ -5756,6 +5774,11 @@ codeunit 134393 "ERM Sales Subform"
           SalesCreditMemoStatistics.AdjustedProfitLCY.AsDecimal(),
           LibraryERM.GetAmountRoundingPrecision(),
           'Invalid Adjusted Profit (LCY) value');
+
+        // TearDown: Update general ledger setup with old value.
+        GeneralLedgerSetup.get();
+        GeneralLedgerSetup.Validate("Inv. Rounding Precision (LCY)", InvRoundingPrecision);
+        GeneralLedgerSetup.Modify(true);
     end;
 
     [Test]
@@ -6705,44 +6728,6 @@ codeunit 134393 "ERM Sales Subform"
         SalesLine.SetRange(Description, ExtendedTextLine[1].Text);
         SalesLine.FindFirst();
         Assert.AreEqual(1, SalesLine.Count(), SalesLineDescriptionMustMatchExtendedTextErr);
-    end;
-
-    [Test]
-    procedure VerifyTotalAmountSalesOrderFromDescription()
-    var
-        Customer: Record Customer;
-        ExtendedTextLine: array[2] of Record "Extended Text Line";
-        Item: Record Item;
-        SalesRecoverablesSetup: Record "Sales & Receivables Setup";
-        SalesOrder: TestPage "Sales Order";
-    begin
-        // [SCENARIO 616781] Item Selection by Description Fails to Trigger Correct Calculations and Behaviors in Sales, Purchase, and Extended Text.
-        Initialize();
-
-        // [GIVEN] Create Item with Extended Text.
-        LibraryInventory.CreateItemWithUnitPriceAndUnitCost(Item, LibraryRandom.RandIntInRange(100, 200), LibraryRandom.RandIntInRange(100, 200));
-        Item.Validate("Automatic Ext. Texts", true);
-        Item.Modify(true);
-        CreateExtendedTextForItem(Item, ExtendedTextLine[1]);
-
-        // [GIVEN] Enable Default Item Quantity in Sales & Receivables Setup.
-        SalesRecoverablesSetup.Get();
-        SalesRecoverablesSetup.Validate("Default Item Quantity", true);
-        SalesRecoverablesSetup.Modify(true);
-
-        // [GIVEN] Create Customer.
-        LibrarySales.CreateCustomer(Customer);
-
-        // [GIVEN] Open New Sales order page and set Sell-to Customer No.
-        SalesOrder.OpenNew();
-        SalesOrder."Sell-to Customer No.".SetValue(Customer."No.");
-
-        // [WHEN] Insert Sales Line with the Item created above.
-        SalesOrder.SalesLines.New();
-        SalesOrder.SalesLines.Description.SetValue(Item.Description);
-
-        // [THEN] Verify that Total Amount Incl. VAT is calculated.
-        Assert.AreNotEqual(0, SalesOrder.SalesLines."Total Amount Incl. VAT".AsDecimal(), TotalAmountErr);
     end;
 
     local procedure Initialize()

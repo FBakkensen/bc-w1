@@ -1,13 +1,8 @@
 {
-  "settings": {
-    "allint.enabled": false,
-    "al.enableCodeActions": false,
-    "search.exclude": {
-      "**.xlf": true
-    },
-    "al.enableCodeAnalysis": false
-  },
   "folders": [
+    {
+      "path": "./Application Test Library"
+    },
     {
       "path": "./System Application/Source/System Application/Email/src/Test Email"
     },
@@ -18,10 +13,10 @@
       "path": "./System Application/Test/System Application Test Library"
     },
     {
-      "path": "./System Application/Test/System Application Test/DisabledTests"
+      "path": "./System Application/Test/System Application Test Library/Extension Management/testArtifacts"
     },
     {
-      "path": "./System Application/Test/System Application Test/Extension Management/testArtifacts"
+      "path": "./System Application/Test/System Application Test/DisabledTests"
     },
     {
       "path": "./SalesLinesSuggestions/Test/Sales Lines Suggestions Tests/AI Tests"
@@ -63,7 +58,7 @@
       "path": "./Email - SMTP API/Test Library/Email - SMTP API Test Library"
     },
     {
-      "path": "./DataArchive/test/Data Archive Tests"
+      "path": "./DataArchive/Test/Data Archive Tests"
     },
     {
       "path": "./BusinessFoundation/Test/Business Foundation Test Libraries"
@@ -75,7 +70,7 @@
       "path": "./StatisticalAccounts/Test/Statistical Accounts Tests"
     },
     {
-      "path": "./DataSearch/test/Data Search Tests"
+      "path": "./DataSearch/Test/Data Search Tests"
     },
     {
       "path": "./Email - Microsoft 365 Connector/Test/Email - Microsoft 365 Connector Tests"
@@ -84,7 +79,7 @@
       "path": "./APIV1/Test/_Exclude_APIV1_ Tests"
     },
     {
-      "path": "./PowerBIReports/Test/PowerBI Reports Tests"
+      "path": "./PowerBIReports/Test/PowerBI Reports Tests/DisabledTests"
     },
     {
       "path": "./PowerBIReports/Test Library/PowerBI Reports Test Library"
@@ -141,7 +136,7 @@
       "path": "./SimplifiedBankStatementImport/Test/Simplified Bank Statement Import Test"
     },
     {
-      "path": "./EDocument Core/Test/E-Document Core Tests"
+      "path": "./EDocument Core/Test/E-Document Core Tests/DisabledTests"
     },
     {
       "path": "./Email - Outlook REST API/Test"
@@ -168,10 +163,13 @@
       "path": "./BankAccRecWithAI/Test/Bank Account Reconciliation With AI Tests/src/UnitTests"
     },
     {
+      "path": "./Application Test Library/Source/Application Test Library"
+    },
+    {
       "path": "./SAF-T/Test/SAF-T Tests"
     },
     {
-      "path": "./ErrorMessagesWithRecommendations/test/Error Messages with Recommendations Tests"
+      "path": "./ErrorMessagesWithRecommendations/Test/Error Messages with Recommendations Tests/DisabledTests"
     },
     {
       "path": "./EU3PartyTradePurchase/test/EU 3-Party Trade Purchase Tests"
@@ -184,6 +182,9 @@
     },
     {
       "path": "./LatePaymentPredictor/Test/Late Payment Prediction Tests"
+    },
+    {
+      "path": "./Withholding Tax/Test/Withholding Tax Tests"
     },
     {
       "path": "./BaseApp/Source/Base Application/System/DevTools/CALTest"
@@ -294,6 +295,21 @@
       "path": "./SalesAndInventoryForecast/Test/Sales and Inventory Forecast Tests"
     },
     {
+      "path": "./PEPPOL/Test/PEPPOL Tests"
+    },
+    {
+      "path": "./Quality Management/Source/Quality Management/src/Configuration/Template/Test"
+    },
+    {
+      "path": "./Quality Management/Test/Quality Management-Tests/DisabledTests"
+    },
+    {
+      "path": "./Quality Management/Test Library/Quality Management Test Library"
+    },
+    {
+      "path": "./ExciseTaxes/Test/Excise Taxes Tests"
+    },
+    {
       "path": "./BankDeposits/Test/_Exclude_Bank Deposits Tests"
     },
     {
@@ -303,7 +319,7 @@
       "path": "./EDocumentConnectors/SignUp/Test/E-Document Connector - SignUp Tests"
     },
     {
-      "path": "./EDocumentConnectors/FORNAV/Test/E-Document Connector - FORNAV Tests"
+      "path": "./EDocumentConnectors/ForNAV/Test/E-Document Connector - ForNAV Tests"
     },
     {
       "path": "./EDocumentConnectors/B2Brouter/Test/E-Document Connector - B2Brouter Tests"
@@ -344,5 +360,13 @@
     {
       "path": "./SustainabilityCopilotSuggestion/Test/Sustainability Copilot Tests"
     }
-  ]
+  ],
+  "settings": {
+    "al.enableCodeActions": false,
+    "al.enableCodeAnalysis": false,
+    "search.exclude": {
+      "**.xlf": true
+    },
+    "allint.enabled": false
+  }
 }
